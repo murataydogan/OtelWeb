@@ -2,122 +2,123 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Rezervasyonlarım</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezervasyonlarım - {{ otel_adi }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f6f8;
-            min-height: 100vh;
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f6f8; min-height: 100vh; margin: 0; }
+
+        /* Navbar Mobil Düzen */
+        .navbar { padding: 0.8rem 1rem !important; }
+        @media (max-width: 576px) {
+            .navbar-brand { font-size: 0.9rem; }
+            .navbar .btn { font-size: 10px; padding: 5px 8px; }
+            .navbar .btn span { display: none; } /* Mobilde yazıları gizle */
         }
+
         .ana-kutu {
-            background: rgba(255,255,255,0.95); padding: 30px; margin-top: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            min-height: 400px;
+            background: rgba(255,255,255,0.98); padding: 25px; margin-top: 20px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); min-height: 400px;
         }
-        .nav-tabs .nav-link { color: #555; font-weight: 600; border: none; border-bottom: 3px solid transparent; transition: all 0.3s; }
+
+        .nav-tabs .nav-link { color: #636e72; font-weight: 600; border: none; border-bottom: 3px solid transparent; font-size: 0.9rem; }
         .nav-tabs .nav-link.active { color: #0d6efd; border-bottom: 3px solid #0d6efd; background: transparent; }
 
         .rezerv-karti {
-            background: #fff; border: 1px solid #eee; border-left: 5px solid #0d6efd;
-            padding: 20px; margin-bottom: 20px; border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: all 0.2s; position: relative;
+            background: #fff; border: 1px solid #f1f2f6; border-left: 5px solid #0d6efd;
+            padding: 20px; margin-bottom: 15px; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s;
         }
-        .rezerv-karti:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .rezerv-iptal { border-left-color: #dc3545; background-color: #fff5f5; }
+        .rezerv-iptal { border-left-color: #dc3545; background-color: #fffafa; }
         .rezerv-tamam { border-left-color: #198754; }
 
-        /* BUTON STİLLERİ */
+        /* Mobil Kart Düzenlemeleri */
+        @media (max-width: 768px) {
+            .ana-kutu { padding: 15px; margin-top: 10px; border-radius: 0; } /* Mobilde tam genişlik */
+            .rezerv-karti { padding: 15px; }
+            .btn-ode, .btn-outline-danger { padding: 10px; font-size: 13px; flex: 1; }
+            .display-4 { font-size: 2.5rem; }
+        }
+
         .btn-ode {
             background-color: #ffc107; color: #000; font-weight: 700; border: none;
-            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
         }
-        .btn-ode:hover { background-color: #ffca2c; transform: scale(1.05); }
 
-        /* MODAL ÖZEL STİLLER */
-        .modal-header { background: #0d6efd; color: white; }
-        .modal-header.danger { background: #dc3545; } /* İptal modalı için kırmızı başlık */
+        .modal-content { border-radius: 25px; overflow: hidden; }
+        .modal-header { padding: 20px; border: none; }
+        .modal-header.danger { background: #dc3545; }
         .warning-box {
-            background-color: #fff3cd; border: 1px solid #ffecb5; color: #856404;
-            padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 20px;
+            background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404;
+            padding: 12px; border-radius: 12px; font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark px-4 shadow">
-<a class="navbar-brand fw-bold" href="/odalar"><i class="fa-solid fa-hotel me-2"></i> {{ otel_adi }}</a>
-    <div class="d-flex gap-2">
-        <a href="/odalar" class="btn btn-outline-light btn-sm">Odalar</a>
-        <a href="/profilim" class="btn btn-primary btn-sm">Profilim</a>
-        <a href="/cikis" class="btn btn-danger btn-sm">Çıkış</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/odalar"><i class="fa-solid fa-hotel me-1"></i> {{ otel_adi }}</a>
+        <div class="d-flex gap-2">
+            <a href="/odalar" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-bed"></i> <span>Odalar</span></a>
+            <a href="/profilim" class="btn btn-primary btn-sm"><i class="fa-solid fa-user"></i> <span>Profilim</span></a>
+            <a href="/cikis" class="btn btn-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
     </div>
 </nav>
 
-<div class="container">
+<div class="container mb-5">
     <div class="ana-kutu">
-        <h3 class="mb-4 text-center fw-bold text-secondary">📁 Rezervasyonlarım</h3>
+        <h4 class="mb-4 text-center fw-bold text-dark"><i class="bi bi-folder2-open me-2 text-primary"></i>Rezervasyonlarım</h4>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+            {% if messages %}{% for category, message in messages %}<div class="alert alert-{{ category }} rounded-3 small">{{ message }}</div>{% endfor %}{% endif %}
         {% endwith %}
 
-        <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
-            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#aktif-pane">Aktif Rezervasyonlar</button></li>
-            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#gecmis-pane">Geçmiş Konaklamalar</button></li>
+        <ul class="nav nav-tabs nav-fill mb-4" id="rezTab" role="tablist">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#aktif-pane">Aktif</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#gecmis-pane">Geçmiş</button></li>
         </ul>
 
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="rezTabContent">
             <div class="tab-pane fade show active" id="aktif-pane">
                 {% if not aktifler %}
-                    <div class="alert alert-light text-center mt-4 border"><h5 class="my-3 text-muted">Aktif bir rezervasyonunuz yok.</h5></div>
+                    <div class="text-center py-5"><i class="bi bi-calendar-x fs-1 text-muted"></i><p class="mt-2 text-muted">Aktif rezervasyon bulunamadı.</p></div>
                 {% else %}
-                    <div class="row">
+                    <div class="row g-3">
                         {% for r in aktifler %}
-                        <div class="col-md-6">
+                        <div class="col-12 col-lg-6">
                             <div class="rezerv-karti {% if r.durum == 'IPTAL' %}rezerv-iptal{% endif %}">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="fw-bold mb-0 text-dark">ODA {{ r.oda_no }}</h5>
-                                    {% if r.durum == 'IPTAL' %}
-                                        <span class="badge bg-danger">İPTAL</span>
-                                    {% else %}
-                                        <span class="badge bg-secondary">AKTİF</span>
-                                    {% endif %}
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="fw-bold text-dark mb-0">ODA {{ r.oda_no }}</h5>
+                                    <span class="badge {% if r.durum == 'IPTAL' %}bg-danger{% else %}bg-primary{% endif %} rounded-pill">
+                                        {{ r.durum }}
+                                    </span>
                                 </div>
-                                <div class="text-muted small mb-3">
-                                    📅 <strong>Giriş:</strong> {{ r.giris_tarihi }} <br>
-                                    📅 <strong>Çıkış:</strong> {{ r.cikis_tarihi }}
+                                <div class="small text-muted mb-3">
+                                    <i class="bi bi-calendar-check me-1"></i> {{ r.giris_tarihi }} <i class="bi bi-arrow-right mx-1"></i> {{ r.cikis_tarihi }}
                                 </div>
-                                <div class="d-flex justify-content-between align-items-end border-top pt-3">
+                                <div class="d-flex justify-content-between align-items-center border-top pt-3">
                                     <div>
-                                        <div class="fw-bold fs-5 text-dark">{{ r.ucret }} ₺</div>
-
+                                        <div class="fw-bold fs-5">{{ r.ucret }} ₺</div>
                                         {% if r.odeme_durumu == 'ODENDI' %}
-                                            <div class="small text-success fw-bold"><i class="bi bi-check-circle-fill"></i> ÖDENDİ</div>
+                                            <span class="text-success small fw-bold"><i class="bi bi-patch-check-fill"></i> ÖDENDİ</span>
                                         {% elif r.odeme_durumu == 'IADE' %}
-                                            <div class="small text-warning fw-bold" style="color: #fd7e14 !important;">
-                                                <i class="bi bi-arrow-counterclockwise"></i> İADE EDİLDİ (%80)
-                                            </div>
+                                            <span class="text-warning small fw-bold"><i class="bi bi-arrow-left-right"></i> İADE EDİLDİ</span>
                                         {% else %}
-                                            <div class="small text-warning fw-bold"><i class="bi bi-hourglass-split"></i> ÖDEME BEKLİYOR</div>
+                                            <span class="text-danger small fw-bold"><i class="bi bi-clock-history"></i> ÖDEME BEKLİYOR</span>
                                         {% endif %}
                                     </div>
-
                                     <div class="d-flex gap-2">
-                                        {% if r.odeme_durumu != 'ODENDI' and r.odeme_durumu != 'IADE' and r.durum != 'IPTAL' %}
-                                            <button class="btn btn-ode btn-sm" onclick="modalAc('{{ r.id }}', '{{ r.ucret }}')">
-                                                <i class="bi bi-credit-card"></i> ÖDE
-                                            </button>
+                                        {% if r.odeme_durumu == 'BEKLIYOR' and r.durum != 'IPTAL' %}
+                                            <button class="btn btn-ode btn-sm px-3" onclick="modalAc('{{ r.id }}', '{{ r.ucret }}')">ÖDE</button>
                                         {% endif %}
-
                                         {% if r.durum != 'IPTAL' %}
-                                            <button class="btn btn-outline-danger btn-sm fw-bold"
-                                                    onclick="iptalModalAc('{{ r.id }}')">
-                                                İPTAL
-                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="iptalModalAc('{{ r.id }}')">İPTAL</button>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -129,123 +130,86 @@
             </div>
 
             <div class="tab-pane fade" id="gecmis-pane">
-                {% if not gecmisler %} <p class="text-center mt-4">Geçmiş kayıt yok.</p> {% else %}
-                <div class="row">
-                    {% for r in gecmisler %}
-                    <div class="col-md-6">
-                        <div class="rezerv-karti {% if r.durum == 'IPTAL' %}rezerv-iptal{% else %}rezerv-tamam{% endif %}">
-                            <h5 class="fw-bold">ODA {{ r.oda_no }} <span class="badge bg-secondary float-end">{{ r.durum }}</span></h5>
-                            <p class="small text-muted">{{ r.giris_tarihi }} - {{ r.cikis_tarihi }}</p>
-                            <span class="fw-bold">{{ r.ucret }} ₺</span>
-
-                            {% if r.odeme_durumu == 'ODENDI' %}
-                                <span class="text-success small fw-bold">✔ ÖDENDİ</span>
-                            {% elif r.odeme_durumu == 'IADE' %}
-                                <span class="text-warning small fw-bold" style="color: #fd7e14 !important;">↩ İADE EDİLDİ (%80)</span>
-                            {% endif %}
+                {% if not gecmisler %}
+                    <p class="text-center py-5 text-muted">Geçmiş konaklama kaydı yok.</p>
+                {% else %}
+                    <div class="row g-3">
+                        {% for r in gecmisler %}
+                        <div class="col-12 col-lg-6">
+                            <div class="rezerv-karti rezerv-tamam">
+                                <h6 class="fw-bold text-dark">ODA {{ r.oda_no }} <span class="badge bg-light text-dark border float-end">{{ r.durum }}</span></h6>
+                                <p class="small text-muted mb-1">{{ r.giris_tarihi }} - {{ r.cikis_tarihi }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary">{{ r.ucret }} ₺</span>
+                                    {% if r.odeme_durumu == 'ODENDI' %}<span class="text-success small fw-bold">✓ ÖDENDİ</span>{% endif %}
+                                </div>
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="odemeModal" tabindex="-1" aria-labelledby="odemeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-
+<div class="modal fade" id="odemeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered mx-3">
+    <div class="modal-content shadow-lg border-0">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="odemeModalLabel">
-            <i class="bi bi-shield-lock-fill"></i> Güvenli Ödeme
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+        <h5 class="modal-title fw-bold"><i class="bi bi-shield-lock-fill me-2"></i>Güvenli Ödeme</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-
       <div class="modal-body text-center p-4">
-
-        <p class="text-muted mb-1">Toplam Ödenecek Tutar</p>
-
-        <h1 class="display-4 text-primary fw-bold mb-4" id="modalFiyat">0.0 TL</h1>
-
-        <div class="alert alert-light border mb-4">
-            <small><i class="bi bi-info-circle"></i> Ödeme işleminiz 256-bit SSL sertifikası ile şifrelenmektedir.</small>
-        </div>
-
+        <p class="text-muted small mb-1">Toplam Ödenecek Tutar</p>
+        <h2 class="display-5 text-primary fw-bold mb-4" id="modalFiyat">0.0 TL</h2>
         <form action="/paytr_odeme_baslat" method="POST">
             <input type="hidden" name="rezervasyon_id" id="hiddenRezId">
             <input type="hidden" name="fiyat" id="hiddenFiyat">
-
-            <button type="submit" class="btn btn-success w-100 py-3 fw-bold fs-5 shadow-sm">
-                PAYTR İLE GÜVENLİ ÖDE <i class="bi bi-credit-card-2-front ms-2"></i>
+            <button type="submit" class="btn btn-success w-100 py-3 fw-bold rounded-3">
+                PAYTR İLE ÖDEMEYİ BAŞLAT <i class="bi bi-chevron-right"></i>
             </button>
         </form>
+        <div class="mt-3 small text-muted"><i class="bi bi-lock-fill"></i> 256-bit Güvenli Ödeme</div>
       </div>
-
     </div>
   </div>
 </div>
 
 <div class="modal fade" id="iptalModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header danger">
-                <h5 class="modal-title fw-bold text-white"><i class="bi bi-exclamation-triangle-fill me-2"></i>İptal Onayı</h5>
+    <div class="modal-dialog modal-dialog-centered mx-3">
+        <div class="modal-content border-0">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold">İptal Onayı</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4 text-center">
-
-                <div class="mb-3">
-                    <i class="bi bi-x-circle text-danger" style="font-size: 4rem;"></i>
+                <i class="bi bi-exclamation-octagon text-danger display-3 mb-3"></i>
+                <h6 class="fw-bold text-dark">Bu rezervasyonu iptal etmek istiyor musunuz?</h6>
+                <div class="warning-box mt-3 text-start small">
+                    <i class="bi bi-info-circle-fill me-1"></i> İptal durumunda ücretin <strong>%80'i</strong> iade edilir.
                 </div>
-
-                <h5 class="fw-bold text-dark">Rezervasyonu iptal etmek istediğinize emin misiniz?</h5>
-
-                <div class="warning-box mt-3 text-start">
-                    <i class="bi bi-info-circle-fill me-1"></i> <strong>Bilgilendirme:</strong>
-                    <br>
-                    Rezervasyon iptallerinde otel politikası gereği
-                    <span class="text-danger fw-bold">ücretin %80'i iade edilmektedir.</span>
-                    Kalan %20 işlem ücreti olarak kesilir.
+                <div class="d-grid gap-2 mt-4">
+                    <a href="#" id="btnIptalOnay" class="btn btn-danger py-2 fw-bold">Evet, İptal Et</a>
+                    <button type="button" class="btn btn-light py-2" data-bs-dismiss="modal">Vazgeç</button>
                 </div>
-
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Vazgeç</button>
-                    <a href="#" id="btnIptalOnay" class="btn btn-danger px-4 fw-bold">Evet, İptal Et</a>
-                </div>
-
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Ödeme Modalı Açma
     function modalAc(id, ucret) {
-    // Hidden inputlara değerleri ata (Arka plan için)
-    document.getElementById('hiddenRezId').value = id;
-    document.getElementById('hiddenFiyat').value = ucret;
+        document.getElementById('hiddenRezId').value = id;
+        document.getElementById('hiddenFiyat').value = ucret;
+        document.getElementById('modalFiyat').innerText = ucret + ' TL';
+        new bootstrap.Modal(document.getElementById('odemeModal')).show();
+    }
 
-    // Ekranda görünen yazıyı güncelle (Görsel için)
-    // Ucreti yazdırırken yanına 'TL' ekliyoruz
-    document.getElementById('modalFiyat').innerText = ucret + ' TL';
-
-    // Modalı aç
-    var myModal = new bootstrap.Modal(document.getElementById('odemeModal'));
-    myModal.show();
-}
-
-    // YENİ: İptal Modalı Açma
     function iptalModalAc(id) {
-        // İptal butonunun gideceği adresi dinamik olarak ayarla
-        var link = document.getElementById('btnIptalOnay');
-        link.href = "/iptal_et/" + id;
-
-        // Modalı göster
-        var iptalModal = new bootstrap.Modal(document.getElementById('iptalModal'));
-        iptalModal.show();
+        document.getElementById('btnIptalOnay').href = "/iptal_et/" + id;
+        new bootstrap.Modal(document.getElementById('iptalModal')).show();
     }
 </script>
 
