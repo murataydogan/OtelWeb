@@ -2,16 +2,18 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-<title>Odalarımız - {{ otel_adi }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odalarımız - {{ otel_adi }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f6f8; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; }
+
         .room-card {
             border: none; border-radius: 15px; background: white; transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%;
         }
         .room-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border: 2px solid #0984e3; }
         .price-tag { color: #0984e3; font-weight: 700; font-size: 1.5rem; }
@@ -31,21 +33,41 @@
         .detail-label { color: #636e72; font-weight: 600; }
         .detail-value { color: #2d3436; font-weight: 400; }
         .total-price { color: #0984e3; font-weight: 800; font-size: 1.2rem; }
+
+        /* 2. EKLEME: Mobil için Özel Ayarlar */
+        @media (max-width: 768px) {
+            .container { padding-left: 10px; padding-right: 10px; }
+            .card { padding: 15px !important; }
+
+            /* Form elemanlarını küçültme */
+            .form-label { font-size: 0.8rem; margin-bottom: 2px; }
+            .form-control, .form-select { padding: 8px; font-size: 0.9rem; }
+
+            /* Odalar yan yana sığsın diye yazı boyutlarını ayarlama */
+            .room-card { padding: 10px !important; }
+            .room-card h4 { font-size: 1rem; }
+            .price-tag { font-size: 1.1rem; }
+            .btn-reserve, .btn-login-first { padding: 8px; font-size: 0.8rem; }
+
+            /* Navbar düzeni */
+            .navbar { padding: 0.5rem !important; }
+            .navbar .btn { font-size: 0.8rem; padding: 5px 8px; }
+        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3 shadow">
     <div class="container-fluid">
-<a class="navbar-brand fw-bold" href="/odalar"><i class="fa-solid fa-hotel me-2"></i> {{ otel_adi }}</a>
+        <a class="navbar-brand fw-bold" href="/odalar"><i class="fa-solid fa-hotel me-2"></i> {{ otel_adi }}</a>
         <div class="d-flex gap-2">
             {% if session.get('tc_no') %}
-                <a href="/profilim" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-user me-1"></i> Profilim</a>
-                <a href="/rezervasyonlarim" class="btn btn-primary btn-sm"><i class="fa-solid fa-folder-open me-1"></i> Rezervasyonlarım</a>
-                <a href="/cikis" class="btn btn-danger btn-sm"><i class="fa-solid fa-right-from-bracket me-1"></i> Çıkış</a>
+                <a href="/profilim" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-user"></i></a>
+                <a href="/rezervasyonlarim" class="btn btn-primary btn-sm">Rezervlerim</a>
+                <a href="/cikis" class="btn btn-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i></a>
             {% else %}
-                <a href="/giris" class="btn btn-outline-light btn-sm fw-bold">Giriş Yap</a>
-                <a href="/kayit" class="btn btn-warning btn-sm fw-bold text-dark">Kayıt Ol</a>
+                <a href="/giris" class="btn btn-outline-light btn-sm fw-bold">Giriş</a>
+                <a href="/giris" class="btn btn-warning btn-sm fw-bold text-dark">Kayıt</a>
             {% endif %}
         </div>
     </div>
@@ -53,20 +75,20 @@
 
 <div class="container mt-4">
     <div class="card p-4 shadow-sm border-0 rounded-4 bg-white">
-        <form action="/odalar" method="GET" class="row g-3 align-items-end">
-            <div class="col-md-3">
+        <form action="/odalar" method="GET" class="row g-2 align-items-end">
+            <div class="col-6 col-md-3">
                 <label class="form-label fw-bold text-secondary">Giriş Tarihi</label>
                 <input type="date" class="form-control" name="giris" id="girisTarihiInput" value="{{ request.args.get('giris') }}">
             </div>
-            <div class="col-md-3">
+            <div class="col-6 col-md-3">
                 <label class="form-label fw-bold text-secondary">Çıkış Tarihi</label>
                 <input type="date" class="form-control" name="cikis" id="cikisTarihiInput" value="{{ request.args.get('cikis') }}">
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <label class="form-label fw-bold text-secondary">Kişi Sayısı</label>
                 <input type="number" class="form-control" name="kisi" value="{{ request.args.get('kisi', 1) }}" min="1">
             </div>
-            <div class="col-md-2">
+            <div class="col-6 col-md-2">
                 <label class="form-label fw-bold text-secondary">Oda Tipi</label>
                 <select name="tip" class="form-select">
                     <option value="HEPSI">Tümü</option>
@@ -76,7 +98,7 @@
                     <option value="KRAL">Kral</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-12 col-md-2">
                 <button type="submit" class="btn btn-dark w-100 fw-bold"><i class="fa-solid fa-magnifying-glass me-1"></i> Listele</button>
             </div>
         </form>
@@ -86,14 +108,14 @@
 <div class="container mt-5 mb-5">
     <h3 class="fw-bold mb-4 text-secondary"><i class="fa-solid fa-bed me-2"></i>Odalarımız</h3>
 
-    <div class="row g-4">
+    <div class="row g-2">
         {% for oda in odalar %}
-        <div class="col-md-3">
+        <div class="col-6 col-md-3">
             <div class="room-card p-3 h-100">
                 <div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-dark">{{ oda.tip }}</span>
-                        <span class="text-muted small"><i class="fa-solid fa-user-group me-1"></i> {{ oda.kapasite }} Kişilik</span>
+                        <span class="badge bg-dark" style="font-size: 0.6rem;">{{ oda.tip }}</span>
+                        <span class="text-muted small fw-bold" style="font-size: 0.6rem;"><i class="fa-solid fa-user-group me-1"></i> {{ oda.kapasite }}</span>
                     </div>
 
                     <h4 class="fw-bold text-dark">Oda {{ oda.oda_no }}</h4>
@@ -101,12 +123,12 @@
                     <div class="mb-3 mt-3">
                         {% if oda.ozellikler %}
                             {% for ozellik in oda.ozellikler.split(',') %}
-                                <span class="badge bg-light text-secondary border mb-1" style="font-weight: 500;">
+                                <span class="badge bg-light text-secondary border mb-1" style="font-weight: 500; font-size: 0.6rem;">
                                     <i class="fa-solid fa-check text-success me-1"></i> {{ ozellik.strip() }}
                                 </span>
                             {% endfor %}
                         {% else %}
-                             <span class="badge bg-light text-muted border mb-1">Standart Hizmetler</span>
+                             <span class="badge bg-light text-muted border mb-1" style="font-size: 0.6rem;">Standart</span>
                         {% endif %}
                     </div>
                 </div>
@@ -115,24 +137,24 @@
                     <div class="d-flex justify-content-between align-items-end mb-3">
                         <div>
                             <span class="price-tag">{{ oda.fiyat }} ₺</span>
-                            <span class="text-muted small">/ gece</span>
+                            <span class="text-muted small" style="font-size: 0.6rem;">/ gece</span>
                         </div>
                     </div>
 
                     {% if oda.durum != 'MUSAIT' and not request.args.get('giris') %}
-                        <button class="btn btn-secondary w-100" disabled>
-                            <i class="fa-solid fa-ban"></i> ŞU AN DOLU
+                        <button class="btn btn-secondary w-100" style="font-size: 0.8rem;" disabled>
+                            <i class="fa-solid fa-ban"></i> DOLU
                         </button>
 
                     {% else %}
                         {% if session.get('tc_no') %}
                             <button class="btn-reserve"
                                     onclick="modalAc('{{ oda.oda_no }}', '{{ oda.tip }}', '{{ oda.fiyat }}')">
-                                SEÇ VE REZERVE ET <i class="fa-solid fa-check ms-1"></i>
+                                SEÇ
                             </button>
                         {% else %}
                             <a href="/giris" class="btn btn-login-first text-decoration-none">
-                                <i class="fa-solid fa-lock me-2"></i> Rezervasyon İçin Giriş Yap
+                                <i class="fa-solid fa-lock me-1"></i> Giriş
                             </a>
                         {% endif %}
                     {% endif %}
@@ -145,28 +167,26 @@
 </div>
 
 <div class="modal fade" id="rezervasyonModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-3">
+    <div class="modal-dialog modal-dialog-centered mx-3"> <div class="modal-content p-3">
             <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold fs-4 text-dark"><i class="fa-solid fa-hotel me-2 text-primary"></i>Rezervasyon Onayı</h5>
+                <h5 class="modal-title fw-bold fs-5 text-dark"><i class="fa-solid fa-hotel me-2 text-primary"></i>Onay</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pt-0">
                 <div class="bg-light p-3 rounded-3 mb-3">
-                    <div class="detail-row"><span class="detail-label">Seçilen Oda:</span><span class="detail-value fw-bold" id="modalOdaBilgi">...</span></div>
-                    <div class="detail-row"><span class="detail-label">Tarih Aralığı:</span><span class="detail-value" id="modalTarih">...</span></div>
+                    <div class="detail-row"><span class="detail-label">Oda:</span><span class="detail-value fw-bold" id="modalOdaBilgi">...</span></div>
+                    <div class="detail-row"><span class="detail-label">Tarih:</span><span class="detail-value small" id="modalTarih">...</span></div>
                     <div class="detail-row"><span class="detail-label">Süre:</span><span class="detail-value" id="modalSure">...</span></div>
-                    <div class="detail-row mt-2 border-top pt-2"><span class="detail-label align-self-center">Toplam Tutar:</span><span class="total-price" id="modalFiyat">0.0 ₺</span></div>
+                    <div class="detail-row mt-2 border-top pt-2"><span class="detail-label align-self-center">Tutar:</span><span class="total-price" id="modalFiyat">0.0 ₺</span></div>
                 </div>
-                <div class="warning-box mb-4"><i class="fa-solid fa-triangle-exclamation fa-lg"></i><span>Dikkat: İptal durumunda toplam ücretin sadece %80'i iade edilir.</span></div>
+                <div class="warning-box mb-4 p-2 small"><i class="fa-solid fa-triangle-exclamation"></i><span>İptalde %20 kesinti olur.</span></div>
                 <form action="/rezervasyon_yap" method="POST">
                     <input type="hidden" name="oda_no" id="hiddenOdaNo">
                     <input type="hidden" name="giris_tarihi" id="hiddenGiris">
                     <input type="hidden" name="cikis_tarihi" id="hiddenCikis">
                     <input type="hidden" name="toplam_ucret" id="hiddenUcret">
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success fw-bold py-2" style="background-color: #00b894; border:none;">✅ ONAYLA VE BİTİR</button>
-                        <button type="button" class="btn btn-light text-secondary fw-bold" data-bs-dismiss="modal">İptal Et</button>
+                        <button type="submit" class="btn btn-success fw-bold py-2" style="background-color: #00b894; border:none;">ONAYLA</button>
                     </div>
                 </form>
             </div>
